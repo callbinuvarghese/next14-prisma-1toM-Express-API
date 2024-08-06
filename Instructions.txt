@@ -1,0 +1,288 @@
+#https://dev.to/nditah/how-to-build-a-rest-api-with-node-prisma-and-postgresql-429a
+
+➜  next npx create-next-app@latest nextjs14-one2many-crud-api
+✔ Would you like to use TypeScript? … No / Yes
+✔ Would you like to use ESLint? … No / Yes
+✔ Would you like to use Tailwind CSS? … No / Yes
+✔ Would you like to use `src/` directory? … No / Yes
+✔ Would you like to use App Router? (recommended) … No / Yes
+✔ Would you like to customize the default import alias (@/*)? … No / Yes
+✔ What import alias would you like configured? … @/*
+Creating a new Next.js app in /Users/binu.b.varghese/source/next/nextjs14-one2many-crud-api.
+
+All - Yes.
+
+Using npm.
+
+Initializing project with template: app-tw
+
+
+Installing dependencies:
+- react
+- react-dom
+- next
+
+Installing devDependencies:
+- typescript
+- @types/node
+- @types/react
+- @types/react-dom
+- postcss
+- tailwindcss
+- eslint
+- eslint-config-next
+
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated @humanwhocodes/config-array@0.11.14: Use @eslint/config-array instead
+npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+
+added 360 packages, and audited 361 packages in 42s
+
+136 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+Initialized a git repository.
+
+Success! Created nextjs14-one2many-crud-api at /Users/binu.b.varghese/source/next/nextjs14-one2many-crud-api
+
+➜  next
+
+➜  nextjs14-one2many-crud-api git:(main) ✗ npm install typescript ts-node @types/node -D
+
+added 14 packages, and audited 383 packages in 4s
+
+136 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+➜  next npm install prisma -D
+
+➜  nextjs14-one2many-crud-api git:(main) ✗ npx prisma init
+
+✔ Your Prisma schema was created at prisma/schema.prisma
+  You can now open it in your favorite editor.
+
+warn You already have a .gitignore file. Don't forget to add `.env` in it to not commit any private information.
+
+Next steps:
+1. Set the DATABASE_URL in the .env file to point to your existing database. If your database has no tables yet, read https://pris.ly/d/getting-started
+2. Set the provider of the datasource block in schema.prisma to match your database: postgresql, mysql, sqlite, sqlserver, mongodb or cockroachdb.
+3. Run prisma db pull to turn your database schema into a Prisma schema.
+4. Run prisma generate to generate the Prisma Client. You can then start querying your database.
+5. Tip: Explore how you can extend the ORM with scalable connection pooling, global caching, and real-time database events. Read: https://pris.ly/beyond-the-orm
+
+More information in our documentation:
+https://pris.ly/d/getting-started
+
+➜  
+Set .env params for PostgreSQL.
+Get details on the PostgreSQL from the docker-compose.yaml
+
+➜  
+
+
+➜  nextjs14-one2many-crud-api git:(main) ✗ npx prisma migrate dev --name "init"
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+Datasource "db": PostgreSQL database "playlist", schema "playlist" at "localhost:5432"
+
+PostgreSQL database playlist created at localhost:5432
+
+Applying migration `20240805210417_init`
+
+The following migration(s) have been created and applied from new schema changes:
+
+migrations/
+  └─ 20240805210417_init/
+    └─ migration.sql
+
+Your database is now in sync with your schema.
+
+Running generate... (Use --skip-generate to skip the generators)
+
+✔ Generated Prisma Client (v5.17.0) to ./node_modules/@prisma/client in 154ms
+
+
+➜  nextjs14-one2many-crud-api git:(main) ✗
+
+➜  nextjs14-one2many-crud-api git:(main) ✗ npm install @prisma/client
+
+up to date, audited 369 packages in 2s
+
+136 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+
+Now test the prisma with client code
+➜  vi src/main.ts
+
+Added test client code to populate initial data
+
+➜  nextjs14-one2many-crud-api git:(main) ✗ npx ts-node src/main.ts
+(node:12981) Warning: To load an ES module, set "type": "module" in the package.json or use the .mjs extension.
+(Use `node --trace-warnings ...` to show where the warning was created)
+/Users/binu.b.varghese/source/next/nextjs14-one2many-crud-api/src/main.ts:37
+import { PrismaClient } from '@prisma/client';
+^^^^^^
+
+The above did not work. Need to find reason.
+
+In tsconfig.json
+    "target": "esnext",
+    "module": "commonjs",
+
+➜  nextjs14-one2many-crud-api git:(main) ✗ npx ts-node src/main.ts
+Created new artist:  { id: 3, email: 'sinach@sinachmusic.com', name: 'Osinachi Kalu' }
+All artists:
+[
+  {
+    id: 1,
+    email: 'artist.one@gmail.com',
+    name: 'Artist One',
+    songs: [
+      {
+        id: 1,
+        title: 'One first song',
+        content: 'Content of first song',
+        released: true,
+        singerId: 1
+      },
+      {
+        id: 2,
+        title: 'Two Second Song',
+        content: 'Content of Second Song',
+        released: true,
+        singerId: 1
+      }
+    ]
+  },
+  {
+    id: 2,
+    email: 'artist.two@gmail.com',
+    name: 'Artist Two',
+    songs: [
+      {
+        id: 3,
+        title: 'Eleventh Song',
+        content: 'Content of Eleventh Song',
+        released: true,
+        singerId: 2
+      }
+    ]
+  },
+  {
+    id: 3,
+    email: 'sinach@sinachmusic.com',
+    name: 'Osinachi Kalu',
+    songs: [
+      {
+        id: 4,
+        title: 'I Know Who I Am',
+        content: null,
+        released: false,
+        singerId: 3
+      }
+    ]
+  }
+]
+
+You can also feed initial data thru a test harness for prisma named prisma studio
+
+➜  nextjs14-one2many-crud-api git:(main) ✗ npx prisma studio
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+Prisma Studio is up on http://localhost:5555
+
+The above opened a test harness on localhost browser for putting seed data on the entities defined in the prisma/schema.
+
+
+➜  nextjs14-one2many-crud-api git:(main) ✗ npm install express
+
+added 55 packages, and audited 438 packages in 12s
+
+138 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+➜  nextjs14-one2many-crud-api git:(main) ✗ npm install @types/express -D
+
+added 10 packages, and audited 448 packages in 4s
+
+138 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+
+PostgreSQL PgAdmin
+http://localhost:5050/login?next=/browser/
+
+Credentials in docker-compose.yaml
+
+
+➜  nextjs14-one2many-crud-api git:(main) ✗  vi src/index.ts
+
+➜  nextjs14-one2many-crud-api git:(main) ✗ npx ts-node src/index.ts
+OR
+➜  nextjs14-one2many-crud-api git:(main) ✗ npm start
+
+> nextjs14-one2many-crud-api@0.1.0 start
+> ts-node src/index.ts
+
+REST API server ready at: http://localhost:3000
+
+➜  postgres curl http://localhost:3000/artists
+{"success":true,"
+payload":
+    [
+        {"id":1,"email":"artist.one@gmail.com","name":"Artist One"},
+        {"id":2,"email":"artist.two@gmail.com","name":"Artist Two"},
+        {"id":3,"email":"sinach@sinachmusic.com","name":"Osinachi Kalu"}
+    ]
+}%
+
+The first two artist is inserted manually thru Prisma Studio
+
+
+➜  postgres curl http://localhost:3000/playlist
+{"success":true,
+ "payload":
+ [
+    {"id":1,"title":"One first song","content":"Content of first song","released":true,
+    "singerId":1,"singer":{"id":1,"email":"artist.one@gmail.com","name":"Artist One"}},
+    {"id":2,"title":"Two Second Song","content":"Content of Second Song","released":true,
+    "singerId":1,"singer":{"id":1,"email":"artist.one@gmail.com","name":"Artist One"}},
+    {"id":3,"title":"Eleventh Song","content":"Content of Eleventh Song","released":true,
+    "singerId":2,"singer":{"id":2,"email":"artist.two@gmail.com","name":"Artist Two"}}
+]
+}%
+
+➜  postgres curl http://localhost:3000/song/1
+{"success":true,
+ "payload":
+    {"id":1,"title":"One first song","content":"Content of first song","released":true,"singerId":1}
+}%
+
+➜  postgres curl -X POST -H "Content-Type: application/json" -d '{"name":"Michael Jackson", "email":"contact@michael.com"}' http://localhost:3000/artist
+{"success":true,"payload":{"id":5,"email":"contact@michael.com","name":"Michael Jackson"}}
+
+➜  postgres curl -X PUT http://localhost:3000/song/release/2
+{"success":true,"payload":{"id":2,"title":"Two Second Song","content":"Content of Second Song","released":true,"singerId":1}}%
+
+➜  postgres curl -X DELETE http://localhost:3000/song/3
+{"success":true,"payload":{"id":3,"title":"Eleventh Song","content":"Content of Eleventh Song","released":true,"singerId":2}}%
+
+➜  postgres curl http://localhost:3000/playlist
+{"success":true,
+    "payload":[
+        {"id":1,"title":"One first song","content":"Content of first song","released":true,"singerId":1
+        ,"singer":{"id":1,"email":"artist.one@gmail.com","name":"Artist One"}}
+        ,{"id":2,"title":"Two Second Song","content":"Content of Second Song","released":true,"singerId":1
+        ,"singer":{"id":1,"email":"artist.one@gmail.com","name":"Artist One"}}]}%
+    
